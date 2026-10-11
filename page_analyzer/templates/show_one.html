@@ -22,12 +22,15 @@
 </div>
 <div class="mt-30 px-10">
   <h1 class="text-4xl">Проверки</h1>
-  <form action="" method="post">
-    <button type="submit" class="my-4 w-50 h-10 text-center text-lg border rounded-md bg-blue-500 text-white">
+  <form action="{{ url_for('check_url', id=url.id) }}" method="post">
+    <button
+      type="submit"
+      class="cursor-pointer my-4 w-50 h-10 text-center text-lg border rounded-md bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white"
+    >
       Запустить проверку
     </button>
   </form>
-  <table class="border border-gray-300 border-collapse w-full">
+  <table data-test="checks" class="border border-gray-300 border-collapse w-full">
     <thead>
       <tr class="text-xl text-left border border-gray-300 h-12">
         <th class="border border-gray-300 py-1 px-2 font-normal w-[5%]">ID</th>
@@ -39,14 +42,16 @@
       </tr>
     </thead>
     <tbody>
+      {% for check in checks %}
       <tr class="text-xl text-left border border-gray-300 h-12">
-        <td class="border border-gray-300 py-1 px-2 font-normal">пока пусто</td>
-        <td class="border border-gray-300 py-1 px-2 font-normal">пока пусто</td>
-        <td class="border border-gray-300 py-1 px-2 font-normal">пока пусто</td>
-        <td class="border border-gray-300 py-1 px-2 font-normal">пока пусто</td>
-        <td class="border border-gray-300 py-1 px-2 font-normal">пока пусто</td>
-        <td class="border border-gray-300 py-1 px-2 font-normal">пока пусто</td>
+        <td class="border border-gray-300 py-1 px-2 font-normal">{{ check.id }}</td>
+        <td class="border border-gray-300 py-1 px-2 font-normal">{{ check.status_code|default('', true) }}</td>
+        <td class="border border-gray-300 py-1 px-2 font-normal">{{ check.h1|default('', true) }}</td>
+        <td class="border border-gray-300 py-1 px-2 font-normal">{{ check.title|default('', true) }}</td>
+        <td class="border border-gray-300 py-1 px-2 font-normal">{{ check.description|default('', true) }}</td>
+        <td class="border border-gray-300 py-1 px-2 font-normal">{{ check.created_at }}</td>
       </tr>
+      {% endfor %}
     </tbody>
   </table>
 </div>
