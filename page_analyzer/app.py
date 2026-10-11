@@ -2,6 +2,7 @@ import os
 from urllib.parse import urlparse
 
 import psycopg
+import requests
 from dotenv import load_dotenv
 from flask import Flask, flash, g, redirect, render_template, request, url_for
 from validators import url
@@ -63,11 +64,28 @@ def show_all():
     
 @app.post('/urls/<int:id>/checks')
 def check_url(id):
-    checked = g.repo.save_check(id)
-    if checked:
-        flash('Страница успешно проверена', 'success')
-    else:
+    app.logger.debug('Ищем url в базе')
+    record = g.repo.find(id=id)
+    if not record:
+        app.logger.error('Такого url нет в базе')
+        flash('Адрес не найден', 'error')
+        return render_template('title.html'), 404
+    address = record['name']
+    check = {'url_id': record['id']}
+
+    try:
+        app.logger.info('Отправляем get-запрос')
+        response = requests.get(address, timeout=5.0)
+        response.raise_for_status()
+    except requests.exceptions.RequestException:
+        app.logger.exception('Запрос упал с ошибкой')
         flash('Произошла ошибка при проверке', 'error')
+        return redirect(url_for('show_one', id=id))
+
+    check['status_code'] = response.status_code
+    g.repo.save_check(check)
+    flash('Страница успешно проверена', 'success')
+    app.logger.info(f'Получен ответ: {response.status_code}, запись о проверке сохранена')
     return redirect(url_for('show_one', id=id))
        
 
