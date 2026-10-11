@@ -7,9 +7,19 @@
     <title>Document</title>
   </head>
   <body>
-    <header class="mx-auto max-w-full bg-gray-800 h-13 flex items-center">
-      <span class="text-white m-4 text-lg">Анализатор страниц</span>
-      <span class="text-gray-400 m-2">Сайты</span>
+    <header>
+      <div class="mx-auto max-w-full bg-gray-800 h-13 flex items-center">
+        <a class="text-white m-4 text-lg" href="{{ url_for('main_page') }}">Анализатор страниц</a>
+        <a class="text-gray-400 m-2" href="{{ url_for('show_all') }}">Сайты</a>
+      </div>
+      {% with messages = get_flashed_messages(with_categories=True) %} {% if messages %} {% for category,
+      message in messages %} {% if category == 'success' %}
+      <div class="border rounded-md bg-green-100 text-green-800 p-4">{{ message }}</div>
+      {% elif category == 'error' %}
+      <div class="border rounded-md bg-red-200 text-red-800 p-4">{{ message }}</div>
+      {% else %}
+      <div class="border rounded-md bg-yellow-200 text-yellow-800 p-4">{{ message }}</div>
+      {% endif %} {% endfor %} {% endif %} {% endwith %}
     </header>
     {% block content %} {% endblock %}
   </body>
