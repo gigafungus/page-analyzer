@@ -36,13 +36,11 @@ class Urls:
             result = cur.fetchall()
             return result
 
-    def save_check(self, id):
+    def save_check(self, data):
         with self.conn.cursor() as cur:
-            cur.execute("INSERT INTO url_checks (url_id, created_at) VALUES (%s, %s) RETURNING id", 
-                        (id, dt.datetime.now(tz=dt.UTC).date()))
-            check_id = cur.fetchone()[0] # type: ignore
+            cur.execute("INSERT INTO url_checks (url_id, status_code, created_at) VALUES (%s, %s, %s)", 
+                        (data['url_id'], data['status_code'], dt.datetime.now(tz=dt.UTC).date()))
         self.conn.commit()
-        return check_id
 
     def list_checks(self, id) -> list[DictRow]:
         with self.conn.cursor(row_factory=dict_row) as cur:
