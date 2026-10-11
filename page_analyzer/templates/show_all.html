@@ -1,0 +1,29 @@
+{% extends "main.html" %} {% block content%}
+<div class="my-2 px-10">
+  <table class="border border-collapse border-gray-300 w-full">
+    <caption class="text-5xl my-2 text-left font-normal">
+      Сайты
+    </caption>
+    <thead>
+      <tr class="text-xl text-left">
+        <th class="border border-gray-300 w-[5%] h-12 font-normal py-1 px-2">ID</th>
+        <th class="border border-gray-300 w-[45%] h-12 font-normal py-1 px-2">Имя</th>
+        <th class="border border-gray-300 w-[30%] h-12 font-normal py-1 px-2">Последняя проверка</th>
+        <th class="border border-gray-300 w-[20%] h-12 font-normal py-1 px-2">Код ответа</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for record in records %}
+      <tr class="text-xl text-left">
+        <td class="border border-gray-300 font-normal h-12 py-1 px-2">{{ record.id }}</td>
+        <td class="border border-gray-300 font-normal h-12 py-1 px-2">
+          <a href="{{ url_for('show_one', id=record.id) }}" class="underline">{{ record.name }}</a>
+        </td>
+        <td class="border border-gray-300 font-normal h-12 py-1 px-2">пока пусто</td>
+        <td class="border border-gray-300 font-normal h-12 py-1 px-2">пока пусто</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
