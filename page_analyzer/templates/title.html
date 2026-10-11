@@ -4,15 +4,12 @@
 >
   <div class="text-5xl font-semibold font-sans">Анализатор страниц</div>
   <div class="font-medium">Бесплатно проверяйте сайты на SEO-пригодность</div>
-  <form action="{{ url_for('check_url') }}" method="post" class="flex items-center h-10">
-    <input
-      name="url"
-      type="url"
-      required
-      placeholder="https://example.com"
-      class="border-gray-300 rounded-md w-100"
-    />
-    <button type="submit" class="m-5 w-35 h-10 px-4 text-center border rounded-md bg-blue-500 text-white">
+  <form action="{{ url_for('add_url') }}" method="post" class="flex items-center h-10">
+    <input name="url" type="url" required placeholder="https://example.com" class="border-gray-300 rounded-md w-100" />
+    <button
+      type="submit"
+      class="cursor-pointer m-5 w-35 h-10 px-4 text-center border rounded-md bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white"
+    >
       ПРОВЕРИТЬ
     </button>
   </form>
