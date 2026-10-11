@@ -30,7 +30,7 @@ def main_page():
     return render_template('title.html')
 
 @app.post('/urls')
-def check_url():
+def add_url():
     form_data = request.form.get('url')
     if form_data is None or len(form_data) > 255 or url(form_data) is not True:
         flash('Адрес недействителен', 'error')
@@ -39,7 +39,7 @@ def check_url():
     normalized = f"{splitted.scheme}://{splitted.hostname}"
     record = g.repo.find(url=normalized)
     if not record:
-        id = g.repo.save(normalized)
+        id = g.repo.save_url(normalized)
         flash('Страница успешно добавлена', 'success')
     else:
         id = record['id']
@@ -53,18 +53,21 @@ def show_one(id):
     if not record:
         flash('Адрес не найден', 'error')
         return render_template('title.html'), 404
-    return render_template('show_one.html', url=record)
+    url_checks = g.repo.list_checks(id)
+    return render_template('show_one.html', url=record, checks=url_checks)
 
 @app.get('/urls')
 def show_all():
     catalog = g.repo.catalog()
     return render_template('show_all.html', records=catalog)
     
-
-  
-    
-
-
-
+@app.post('/urls/<int:id>/checks')
+def check_url(id):
+    checked = g.repo.save_check(id)
+    if checked:
+        flash('Страница успешно проверена', 'success')
+    else:
+        flash('Произошла ошибка при проверке', 'error')
+    return redirect(url_for('show_one', id=id))
        
 
