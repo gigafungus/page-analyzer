@@ -1,0 +1,53 @@
+{% extends "main.html" %} {% block content%}
+<div class="my-2 px-10">
+  <table class="border border-collapse border-gray-300 w-full">
+    <caption class="text-5xl my-2 text-left font-normal my-2">
+      Сайт: {{ url.name }}
+    </caption>
+    <tbody>
+      <tr class="text-xl text-left border border-gray-300 h-12">
+        <th class="font-normal py-1 px-2">ID</th>
+        <td class="border border-gray-300 py-1 px-2">{{ url.id }}</td>
+      </tr>
+      <tr class="text-xl text-left border border-gray-300 h-12">
+        <th class="font-normal py-1 px-2">Имя</th>
+        <td class="border border-gray-300 py-1 px-2">{{ url.name }}</td>
+      </tr>
+      <tr class="text-xl text-left border border-gray-300 h-12">
+        <th class="font-normal py-1 px-2">Дата создания</th>
+        <td class="border border-gray-300 py-1 px-2">{{ url.created_at }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="mt-30 px-10">
+  <h1 class="text-4xl">Проверки</h1>
+  <form action="" method="post">
+    <button type="submit" class="my-4 w-50 h-10 text-center text-lg border rounded-md bg-blue-500 text-white">
+      Запустить проверку
+    </button>
+  </form>
+  <table class="border border-gray-300 border-collapse w-full">
+    <thead>
+      <tr class="text-xl text-left border border-gray-300 h-12">
+        <th class="border border-gray-300 py-1 px-2 font-normal w-[5%]">ID</th>
+        <th class="border border-gray-300 py-1 px-2 font-normal w-[10%]">Код ответа</th>
+        <th class="border border-gray-300 py-1 px-2 font-normal w-[35%]">h1</th>
+        <th class="border border-gray-300 py-1 px-2 font-normal w-[15%]">title</th>
+        <th class="border border-gray-300 py-1 px-2 font-normal w-[20%]">description</th>
+        <th class="border border-gray-300 py-1 px-2 font-normal w-[15%]">Дата создания</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="text-xl text-left border border-gray-300 h-12">
+        <td class="border border-gray-300 py-1 px-2 font-normal">пока пусто</td>
+        <td class="border border-gray-300 py-1 px-2 font-normal">пока пусто</td>
+        <td class="border border-gray-300 py-1 px-2 font-normal">пока пусто</td>
+        <td class="border border-gray-300 py-1 px-2 font-normal">пока пусто</td>
+        <td class="border border-gray-300 py-1 px-2 font-normal">пока пусто</td>
+        <td class="border border-gray-300 py-1 px-2 font-normal">пока пусто</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+{% endblock %}
