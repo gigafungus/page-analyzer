@@ -20,7 +20,7 @@
           <a href="{{ url_for('show_one', id=record.id) }}" class="underline">{{ record.name }}</a>
         </td>
         <td class="border border-gray-300 font-normal h-12 py-1 px-2">{{ record.last_check }}</td>
-        <td class="border border-gray-300 font-normal h-12 py-1 px-2">{{ record.status_code|default('', true) }}</td>
+        <td class="border border-gray-300 font-normal h-12 py-1 px-2">{{ record.status_code }}</td>
       </tr>
       {% endfor %}
     </tbody>
