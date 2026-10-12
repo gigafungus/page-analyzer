@@ -45,10 +45,16 @@
       {% for check in checks %}
       <tr class="text-xl text-left border border-gray-300 h-12">
         <td class="border border-gray-300 py-1 px-2 font-normal">{{ check.id }}</td>
-        <td class="border border-gray-300 py-1 px-2 font-normal">{{ check.status_code|default('', true) }}</td>
-        <td class="border border-gray-300 py-1 px-2 font-normal">{{ check.h1|default('', true) }}</td>
-        <td class="border border-gray-300 py-1 px-2 font-normal">{{ check.title|default('', true) }}</td>
-        <td class="border border-gray-300 py-1 px-2 font-normal">{{ check.description|default('', true) }}</td>
+        <td class="border border-gray-300 py-1 px-2 font-normal">{{ check.status_code }}</td>
+        <td class="border border-gray-300 py-1 px-2 font-normal">
+          {{ check.h1|default('', true)|truncate(200, killwords=True) }}
+        </td>
+        <td class="border border-gray-300 py-1 px-2 font-normal">
+          {{ check.title|default('', true)|truncate(200, killwords=True) }}
+        </td>
+        <td class="border border-gray-300 py-1 px-2 font-normal">
+          {{ check.description|default('', true)|truncate(200, killwords=True) }}
+        </td>
         <td class="border border-gray-300 py-1 px-2 font-normal">{{ check.created_at }}</td>
       </tr>
       {% endfor %}
