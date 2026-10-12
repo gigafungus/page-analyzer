@@ -57,4 +57,3 @@ __pycache__/
 node_modules/
 page_analyzer/static/css/main.css
 .prettierrc
-.python-version
