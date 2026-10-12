@@ -34,11 +34,14 @@ def main_page():
 @app.post('/urls')
 def add_url():
     form_data = request.form.get('url')
-    if form_data is None or len(form_data) > 255 or url(form_data) is not True:
-        flash('Адрес недействителен', 'error')
+    if form_data is None or url(form_data) is not True:
+        flash('Некорректный URL', 'error')
         return render_template('title.html'), 422
     splitted = urlparse(form_data)
     normalized = f"{splitted.scheme}://{splitted.hostname}"
+    if len(normalized) > 255:
+        flash('URL превышает 255 символов')
+        return render_template('title.html'), 422
     record = g.repo.find(url=normalized)
     if not record:
         id = g.repo.save_url(normalized)
