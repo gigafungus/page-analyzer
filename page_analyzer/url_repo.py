@@ -5,10 +5,10 @@ from psycopg.rows import DictRow, dict_row
 
 
 class Urls:
-    def __init__(self, connection):
-        self.conn: psycopg.Connection = connection
+    def __init__(self, connection: psycopg.Connection):
+        self.conn = connection
 
-    def save_url(self, url):
+    def save_url(self, url: str):
         with self.conn.cursor() as cur:
             cur.execute("INSERT INTO urls (name, created_at) VALUES (%s, %s) RETURNING id", 
                         (url, dt.datetime.now(tz=dt.UTC).date()))
@@ -16,7 +16,7 @@ class Urls:
         self.conn.commit()
         return id
 
-    def find(self, id=None, url=None) -> DictRow | None:
+    def find(self, id: int|None = None, url: str|None = None) -> DictRow | None:
         with self.conn.cursor(row_factory=dict_row) as cur:
             if url:
                 cur.execute("SELECT * FROM urls WHERE name=%s", (url,))
@@ -36,13 +36,15 @@ class Urls:
             result = cur.fetchall()
             return result
 
-    def save_check(self, data):
+    def save_check(self, data: dict):
         with self.conn.cursor() as cur:
-            cur.execute("INSERT INTO url_checks (url_id, status_code, created_at) VALUES (%s, %s, %s)", 
-                        (data['url_id'], data['status_code'], dt.datetime.now(tz=dt.UTC).date()))
+            cur.execute('''INSERT INTO url_checks (url_id, status_code, h1, title, description, created_at)
+                            VALUES (%s, %s, %s, %s, %s, %s)''',
+                            (data['url_id'], data['status_code'],data.get('h1'), data.get('title'),
+                            data.get('description'), dt.datetime.now(tz=dt.UTC).date()))
         self.conn.commit()
 
-    def list_checks(self, id) -> list[DictRow]:
+    def list_checks(self, id: int) -> list[DictRow]:
         with self.conn.cursor(row_factory=dict_row) as cur:
             cur.execute("SELECT * FROM url_checks WHERE url_id=%s ORDER BY id DESC", (id,))
             result = cur.fetchall()
