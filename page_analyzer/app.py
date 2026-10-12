@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 from flask import Flask, flash, g, redirect, render_template, request, url_for
 from validators import url
 
+from page_analyzer.parser import parse_page
 from page_analyzer.url_repo import Urls
 
 load_dotenv()
@@ -82,10 +83,10 @@ def check_url(id):
         flash('Произошла ошибка при проверке', 'error')
         return redirect(url_for('show_one', id=id))
 
+    data = parse_page(response)
+    check.update(data)
     check['status_code'] = response.status_code
     g.repo.save_check(check)
     flash('Страница успешно проверена', 'success')
     app.logger.info(f'Получен ответ: {response.status_code}, запись о проверке сохранена')
     return redirect(url_for('show_one', id=id))
-       
-
