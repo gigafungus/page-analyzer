@@ -28,3 +28,8 @@ build:
 
 render-start:
 	gunicorn -w 5 -b 0.0.0.0:$(PORT) page_analyzer:app
+
+-include .env
+export
+dbsetup:
+	psql "$(DATABASE_URL)" -f database.sql
