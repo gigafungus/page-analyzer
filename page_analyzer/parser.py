@@ -8,7 +8,6 @@ def parse_page(response: requests.Response) -> dict[str, str]:
     data = {}
 
     h1 = soup.h1
-    print(h1)
     if h1:
         data['h1'] = h1.get_text(separator=' ', strip=True)
 
